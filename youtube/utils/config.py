@@ -30,4 +30,7 @@ class Config:
 
     YOUTUBE_URL = environ.get("YOUTUBE_URL", "https://youtube.googleapis.com")
 
-    API_KEY = environ.get("API_KEY", "AIzaSyDkuSGzpTDkv--dJ8odnkQ2j9l8fqxO3cE")
+    API_KEYS = [
+        "AIzaSyDKLE48iVFqwcQ9Bwlg-urNjrb_lvaMoOc",
+        "AIzaSyDkuSGzpTDkv--dJ8odnkQ2j9l8fqxO3cE",
+    ]
