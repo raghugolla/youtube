@@ -33,6 +33,7 @@ class VideoRepo:
                 query=query,
                 model=VideoModel,
                 cursor=cursor,
+                order="desc",
                 timestamp_attr=VideoModel.published_at,
             )
         else:
@@ -60,7 +61,7 @@ class VideoRepo:
             published_at=video_model.published_at,
             channel_id=video_model.channel_id,
             channel_title=video_model.channel_id,
-            created_at=video_model.created_at
+            created_at=video_model.created_at,
         )
 
 
