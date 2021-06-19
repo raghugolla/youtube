@@ -1,6 +1,6 @@
-name       = "youtube_search"
+name       = "youtube"
 depends_on = []
-image      = "app/youtube_search"
+image      = "app/youtube"
 image_tag  = build.sha
 
 env = {
@@ -30,13 +30,13 @@ secrets {
   }
 
     source {
-    key      = "secret/data/youtube_search"
+    key      = "secret/data/youtube"
   }
 }
 
 web api {
   command        = serve_wsgi("youtube.app:app")
-  service_name   = "youtube_search"
+  service_name   = "youtube"
 
   check "api" {
     path = "/health"
@@ -50,7 +50,7 @@ web api {
 
 
 cron processor {
-  command  = pymodule("youtube_search.cron.search")
+  command  = pymodule("youtube.cron.search")
   schedule = "*/2 * * * *"
 }
 

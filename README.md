@@ -1,4 +1,4 @@
-# youtube_search python project
+# youtube python project
 
 A baseline starting point to start any python project
 
@@ -10,11 +10,11 @@ A baseline starting point to start any python project
 
 ### Running tests
 
-- `docker-compose run youtube_search_web pytest`
+- `docker-compose run youtube_web pytest`
 
 ## Structure
 - db: contains schema/migrations
-- youtube_search: The actual project
+- youtube: The actual project
     - api: controller layer
     - domain: domain model, services etc go here
     - exapi: Calls to external systems from this project
