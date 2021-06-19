@@ -18,6 +18,12 @@ def published_before_ten_min() -> str:
     return f"{time_stamp[0]}T{time_stamp[1][:-6]}Z"
 
 
+def get_api_key() -> str:
+    return (
+        Config.API_KEYS[0] if time_now().strftime("%p") == "PM" else Config.API_KEYS[0]
+    )
+
+
 class YoutubeService:
     def __init__(self, url):
         self._url = url
@@ -30,7 +36,7 @@ class YoutubeService:
             "maxResults": batch_size,
             "q": query,
             "publishedAfter": published_before_ten_min(),
-            "key": Config.API_KEY,
+            "key": get_api_key(),
         }
         response = requests.get(
             f"{self._url}/youtube/v3/search", params=serialize(params)
