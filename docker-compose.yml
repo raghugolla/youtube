@@ -1,0 +1,47 @@
+services:
+  db_youtube:
+    environment:
+      POSTGRES_DB: youtube
+      POSTGRES_PASSWORD: shuttl_user
+      POSTGRES_USER: shuttl_user
+    healthcheck:
+      interval: 5s
+      retries: 5
+      test:
+      - CMD-SHELL
+      - pg_isready
+      timeout: 5s
+    image: postgis/postgis:9.6-3.1
+    ports:
+    - 10371:5432
+  dbmate_youtube:
+    build: ./dbmate-docker
+    command: bash -c  "dbmate up && dbmate dump"
+    depends_on:
+      db_youtube:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://shuttl_user:shuttl_user@db_youtube:5432/youtube?sslmode=disable
+    volumes:
+    - .:/usr/data
+    working_dir: /usr/data
+  web_youtube:
+    build: .
+    command: flask run --host='0.0.0.0' --reload
+    depends_on:
+      db_youtube:
+        condition: service_healthy
+      dbmate_youtube:
+        condition: service_started
+    environment:
+      - FLASK_APP=youtube/app.py
+      - YOUTUBE_DB_URL=db_youtube
+      - YOUTUBE_DB_USER=shuttl_user
+      - YOUTUBE_DB_PASS=shuttl_user
+      - YOUTUBE_DB_NAME=youtube
+      - FLASK_DEBUG=1
+    ports:
+    - 10370:5000
+    volumes:
+    - .:/app
+version: '3'
