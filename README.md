@@ -1,12 +1,11 @@
-# youtube python project
-
+# Getting youtube video through data v3 API 
 A baseline starting point to start any python project
 
 ## Usage
 
 ### Running the app
 
-- `docker-compose up`
+- `docker-compose up --build web_youtube`
 
 ### Running tests
 
