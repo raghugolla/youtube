@@ -27,6 +27,7 @@ def health() -> APIResponse:
 
 
 @blueprint.route("/by_title", methods=["GET"])
+
 @queryschema(Schema({Required("title"): str}).extend(pagination.schema))
 def get_by_names(title: str, after=None, limit=None) -> APIResponse:
     cursor = Cursor.from_strings(after=after, limit=limit)
