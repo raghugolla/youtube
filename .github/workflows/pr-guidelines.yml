@@ -19,7 +19,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
 
-            const guidelinesPath = path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/coding-guidelines.md');
+            const guidelinesPath = path.join(process.env.GITHUB_WORKSPACE, 'coding-guidelines.md');
             const guidelinesContent = fs.readFileSync(guidelinesPath, 'utf8');
 
             const { owner, repo } = context.repo;
