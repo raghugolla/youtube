@@ -1,0 +1,35 @@
+name: PR Guidelines Bot
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  display-guidelines:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Comment with PR Guidelines
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const guidelinesPath = path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/coding-guidelines.md');
+            const guidelinesContent = fs.readFileSync(guidelinesPath, 'utf8');
+
+            const { owner, repo } = context.repo;
+            const issueNumber = context.payload.pull_request.number;
+
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            await octokit.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: guidelinesContent
+            });
+
