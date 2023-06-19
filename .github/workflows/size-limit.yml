@@ -1,0 +1,27 @@
+name: Pull Request Size Limit
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  size-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check Pull Request Size
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^)
+          SIZE_LIMIT=300
+
+          for FILE in $CHANGED_FILES; do
+            SIZE=$(wc -l < $FILE)
+            if [[ $SIZE -gt $SIZE_LIMIT ]]; then
+              echo "ERROR: $FILE exceeds the size limit of $SIZE_LIMIT lines."
+              exit 1
+            fi
+          done
+
