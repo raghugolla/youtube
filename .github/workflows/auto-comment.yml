@@ -1,0 +1,37 @@
+name: Auto Comment on Pull Requests
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  auto-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Auto Comment
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issueNumber = context.payload.pull_request.number;
+
+            const comment = `
+            Hello! Thank you for submitting this pull request. 
+            Please make sure to follow our coding guidelines and run all tests before merging.
+            If you have any questions or need further assistance, feel free to ask.
+            Happy coding!
+            `;
+
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            await octokit.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: comment
+            });
+
