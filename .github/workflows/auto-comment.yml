@@ -1,37 +1,22 @@
-name: Auto Comment on Pull Requests
+name: PR Title Validation
 
 on:
   pull_request:
-    types:
-      - opened
+    branches:
+      - integration
 
 jobs:
-  auto-comment:
+  comment:
     runs-on: ubuntu-latest
-
+    if: "!startsWith(github.event.pull_request.title, 'PR - ')"
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Auto Comment
-        uses: actions/github-script@v4
+      - uses: actions/github-script@v5
         with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const { owner, repo } = context.repo;
-            const issueNumber = context.payload.pull_request.number;
-
-            const comment = `
-            Hello! Thank you for submitting this pull request. 
-            Please make sure to follow our coding guidelines and run all tests before merging.
-            If you have any questions or need further assistance, feel free to ask.
-            Happy coding!
-            `;
-
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-            await octokit.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: issueNumber,
-              body: comment
-            });
-
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Please change PR Title!!'
+            })
