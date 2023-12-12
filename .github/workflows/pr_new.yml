@@ -17,5 +17,12 @@ jobs:
             issue_number: ${{ github.event.number }},
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: ':warning: Test!'
+            body: 'Hey Reviewer, please take care of the following things in this PR:\n\n'
+                  + '1. No Pull request is to be approved till it doesn\'t have a Tech Spec, a Test Plan and a Post Release Monitoring Plan.\n'
+                  + '2. Enforce the changes requested by the SonarQube in that code which was modified or added in the pull request.\n'
+                  + '3. Name of the variable, function, method, class, or package should tell the intent.\n'
+                  + '4. Type hints are a must for the function/method parameters and return value.\n'
+                  + '5. Functions, methods, and classes should be small and focused on one thing. Functions/Methods for an operation and classes for a concept respectively.\n'
+                  + '6. If explaining the working of a block of code requires comments, then that code is a candidate for refactoring.\n\n'
+                  + 'For more details, please go through [this link](https://wiki.corp.adobe.com/display/EFMarketPlace/Pull+Request+Reviewer%27s+checklist). :warning: Test!'
           })
